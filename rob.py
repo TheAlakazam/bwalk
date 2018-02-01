@@ -9,8 +9,6 @@ print(ports)
 
 dxl = pypot.dynamixel.DxlIO(ports[0])
 
-dxl.set_goal_position({1:0, 2:0, 3:0, 4:0, 5: 180, 6:-117
-                       , 7:70, 8:-70})
 dxl.set_moving_speed({1:70, 2:70, 3:100, 4:100})
 
 def back():
@@ -43,7 +41,7 @@ def left():
     dxl.set_goal_position({5:0, 6:0, 7:18, 8:-18})
     a,b = -25,-35
     dxl.set_moving_speed({1:70, 2:70, 3:100, 4:100})
-    c = 65
+    c = 55
     dxl.set_goal_position({3:a, 4:b})
     time.sleep(1)
     dxl.set_goal_position({1:c})
@@ -57,7 +55,7 @@ def right():
     b,a = 25,35
     dxl.set_goal_position({5:0, 6:0, 7:18, 8:-18})
     dxl.set_moving_speed({1:70, 2:70, 3:100, 4:100})
-    c = -45
+    c = -55
     dxl.set_goal_position({3:a, 4:b})
     time.sleep(1)
     dxl.set_goal_position({2:c})
@@ -69,11 +67,11 @@ def right():
 
 
 def forward():
-    dxl.set_goal_position({1:0,2:0,3:0,4:0})
+    dxl.set_goal_position({1:0,2:0,3:0,4:0, 5:-117, 6:117})
     dxl.set_goal_position({7:70,8:-70})
     c,d=-27,-27
     a,b=-22,-22
-    while (True):
+    for i in range(5):
         dxl.set_moving_speed({1:100,2:100,3:100,4:100})
         dxl.set_goal_position({3:a,4:b})
         time.sleep(0.3)
@@ -85,19 +83,18 @@ def forward():
 
 def dpad(pos):
     if pos.top:
-        print("Up")
+        forward()
     elif pos.bottom:
         i = 5
-        while i-=1:
+        while i:
             back()
+            i-=1
     elif pos.left:
         left()
     elif pos.right:
         right()
     elif pos.middle:
         print("fire")
-
-left()
 bd = BlueDot()
 bd.when_pressed = dpad
 pause()
